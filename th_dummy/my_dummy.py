@@ -12,7 +12,7 @@ from django.utils.log import getLogger
 from external_api import CallOfApi
 
 """
-    handle process with pocket
+    handle process with dummy
     put the following in settings.py
 
     TH_DUMMY = {
@@ -53,7 +53,7 @@ class ServiceDummy(ServicesMgr):
             item_id = dummy_instance .add(
                 url=data['link'], title=title, tags=(trigger.tag.lower()))
 
-            sentance = str('pocket {} created').format(data['link'])
+            sentance = str('dummy {} created').format(data['link'])
             logger.debug(sentance)
         else:
             logger.critical("no token provided for trigger ID %s ", trigger_id)
@@ -63,7 +63,7 @@ class ServiceDummy(ServicesMgr):
             let's auth the user to the Service
         """
         callbackUrl = 'http://%s%s' % (
-            request.get_host(), reverse('pocket_callback'))
+            request.get_host(), reverse('dummy_callback'))
 
         request_token = CallOfApi.get_request_token(
             consumer_key=settings.TH_DUMMY['consummer_key'],
