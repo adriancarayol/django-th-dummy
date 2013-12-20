@@ -1,0 +1,4 @@
+exclude th_dummy/local_settings.py
+include *.txt *.rst
+recursive-include th_dummy *.html
+recursive-include th_dummy/templates *
