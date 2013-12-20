@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
-from th_pocket.models import Pocket
+from th_Dummy.models import Dummy
 
 
-class PocketForm(forms.ModelForm):
+class DummyForm(forms.ModelForm):
 
     """
         for to handle Pocket service
     """
 
     class Meta:
-        model = Pocket
+        model = Dummy
         fields = ('tag',)
 
 
-class PocketProviderForm(PocketForm):
+class DummyProviderForm(DummyForm):
     pass
 
 
-class PocketConsummerForm(PocketForm):
+class DummyConsummerForm(DummyForm):
     pass
