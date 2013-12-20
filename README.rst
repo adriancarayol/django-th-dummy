@@ -2,7 +2,13 @@
 Django Trigger Happy : Dummy Service
 =====================================
 
-This service provides an acces to your Dummy account from Trigger Happy
+This project is a dummy module for Django Trigger Happy that can be used 
+to bootstrap a new Service. 
+
+All you need to use will be to replace "dummy" everywhere and provide
+all the needed stuff in my_dummy.py module to handle the data to/from 
+the service you want to plug to DTH.
+
 
 Requirements :
 ==============
