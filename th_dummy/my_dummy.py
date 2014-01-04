@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
+# add here the call of any native lib of python like datetime etc.
+# 
+# add the python API here if needed
+from external_api import CallOfApi
 
-# django_th classes
-from django_th.services.services import ServicesMgr
-from django_th.models import UserService, ServicesActivated
 # django classes
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.utils.log import getLogger
 
-# add the python API here if needed
-from external_api import CallOfApi
+# django_th classes
+from django_th.services.services import ServicesMgr
+from django_th.models import UserService, ServicesActivated
 
 """
     handle process with dummy
@@ -42,21 +44,25 @@ class ServiceDummy(ServicesMgr):
         if token and 'link' in data and data['link'] is not None and len(data['link']) > 0:
             # get the data of this trigger
             trigger = Dummy.objects.get(trigger_id=trigger_id)
-	    
-	    # get the token of the external service for example 
+            # if the external service need we provide 
+            # our stored token and token secret then I do
+            # token_key, token_secret = token.split('#TH#')
+
+	        # get the token of the external service for example 
             dummy_instance = external_api.CallOfApi(
                 settings.TH_DUMMY['consummer_key'], token)
 
             title = ''
             title = (data['title'] if 'title' in data else '')
-	    # add data to the external service
+	        # add data to the external service
             item_id = dummy_instance .add(
                 url=data['link'], title=title, tags=(trigger.tag.lower()))
 
             sentance = str('dummy {} created').format(data['link'])
             logger.debug(sentance)
         else:
-            logger.critical("no token provided for trigger ID %s ", trigger_id)
+            logger.critical(
+                "no token or link provided for trigger ID {} ".format(trigger_id))
 
     def auth(self, request):
         """
@@ -98,9 +104,81 @@ class ServiceDummy(ServicesMgr):
                 code=request.session['request_token'])
 
             us.token = access_token
+
+            #if the service require us to provide 
+            # the access token +  access token secret then 
+            # here is the way I do
+            #access_token = self.get_access_token(
+            #    request.session['oauth_token'],
+            #    request.session['oauth_token_secret'],
+            #    request.GET.get('oauth_verifier', '')
+            #)
+            #us.token = access_token['oauth_token'] + \
+            #    '#TH#' + access_token['oauth_token_secret']
+            # then in process_data I split on #TH# to get each one
+
             # 3) and save everything
             us.save()
         except KeyError:
             return '/'
 
         return 'dummy/callback.html'
+
+"""
+    if the external API does not provide the Oauth workflow 
+    here his the one to use it 
+    just move the next 4 line to the top of the script,
+    then move the __init__ function under the Class definition 
+    that's it
+"""
+"""
+
+    # oauth and url stuff
+    import oauth2 as oauth
+    import urlparse
+    import urllib
+
+    def __init__(self):
+        # change those by the real URL used by the service you need 
+        # to read
+        self.AUTH_URL = 'https://www.domain.com/api/oauth/authorize/'
+        self.REQ_TOKEN = 'https://www.domain.com/api/oauth/request_token/'
+        self.ACC_TOKEN = 'https://www.domain.com/api/oauth/access_token/'
+        self.consummer_key = settings.TH_DUMMY['consummer_key']
+        self.consummer_secret = settings.TH_DUMMY['consummer_secret']
+
+    # Oauth Stuff
+    def get_auth_url(self, request, request_token):
+        return '%s?oauth_token=%s' % (
+            self.AUTH_URL,
+            urllib.quote(request_token['oauth_token']))
+
+    def get_request_token(self, request, callback_url):
+        client = self._get_oauth_client()
+        request_url = '%s?oauth_callback=%s' % (
+            self.REQ_TOKEN, urllib.quote(callback_url))
+
+        resp, content = client.request(request_url, 'GET')
+        request_token = dict(urlparse.parse_qsl(content))
+        return request_token
+
+    def get_access_token(
+        self, oauth_token, oauth_token_secret, oauth_verifier
+    ):
+        token = oauth.Token(oauth_token, oauth_token_secret)
+        token.set_verifier(oauth_verifier)
+        client = self._get_oauth_client(token)
+
+        resp, content = client.request(self.ACC_TOKEN, 'POST')
+        access_token = dict(urlparse.parse_qsl(content))
+        return access_token
+
+    def _get_oauth_client(self, token=None):
+        consumer = oauth.Consumer(self.consummer_key, self.consummer_secret)
+        if token:
+            client = oauth.Client(consumer, token)
+        else:
+            client = oauth.Client(consumer)
+        return client
+
+"""
