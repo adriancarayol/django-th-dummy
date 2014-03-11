@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# django_th classes
-from django_th.services.services import ServicesMgr
-from django_th.models import UserService, ServicesActivated
 # django classes
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -11,12 +8,16 @@ from django.utils.log import getLogger
 # add the python API here if needed
 from external_api import CallOfApi
 
+# django_th classes
+from django_th.services.services import ServicesMgr
+from django_th.models import UserService, ServicesActivated
+
 """
     handle process with dummy
     put the following in settings.py
 
     TH_DUMMY = {
-        'consummer_key': 'abcdefghijklmnopqrstuvwxyz',
+        'consumer_key': 'abcdefghijklmnopqrstuvwxyz',
     }
 
 """
@@ -42,14 +43,14 @@ class ServiceDummy(ServicesMgr):
         if token and 'link' in data and data['link'] is not None and len(data['link']) > 0:
             # get the data of this trigger
             trigger = Dummy.objects.get(trigger_id=trigger_id)
-	    
-	    # get the token of the external service for example 
+
+            # get the token of the external service for example
             dummy_instance = external_api.CallOfApi(
-                settings.TH_DUMMY['consummer_key'], token)
+                settings.TH_DUMMY['consumer_key'], token)
 
             title = ''
             title = (data['title'] if 'title' in data else '')
-	    # add data to the external service
+            # add data to the external service
             item_id = dummy_instance .add(
                 url=data['link'], title=title, tags=(trigger.tag.lower()))
 
@@ -66,7 +67,7 @@ class ServiceDummy(ServicesMgr):
             request.get_host(), reverse('dummy_callback'))
 
         request_token = CallOfApi.get_request_token(
-            consumer_key=settings.TH_DUMMY['consummer_key'],
+            consumer_key=settings.TH_DUMMY['consumer_key'],
             redirect_uri=callbackUrl)
 
         # Save the request token information for later
@@ -94,7 +95,7 @@ class ServiceDummy(ServicesMgr):
                 name=ServicesActivated.objects.get(name='ServiceDummy'))
             # 2) then get the token
             access_token = CallOfApi.get_access_token(
-                consumer_key=settings.TH_DUMMY['consummer_key'],
+                consumer_key=settings.TH_DUMMY['consumer_key'],
                 code=request.session['request_token'])
 
             us.token = access_token

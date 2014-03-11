@@ -19,5 +19,5 @@ class DummyProviderForm(DummyForm):
     pass
 
 
-class DummyConsummerForm(DummyForm):
+class DummyConsumerForm(DummyForm):
     pass

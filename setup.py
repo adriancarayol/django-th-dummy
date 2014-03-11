@@ -16,11 +16,11 @@ install_requires = reqs('requirements.txt')
 setup(
     name='django_th_dummy',
     version=version,
-    description='Django Trigger Happy : This handles the Dummy service',
+    description='Django Trigger Happy : This handles the Dummy service - provides a "template" to make your own service from scratch ',
     author='Olivier Demah',
     author_email='olivier@foxmask.info',
     url='https://github.com/foxmask/django-th-dummy',
-    download_url="https://github.com/foxmask/django-th-dummy/archive/trigger-happy-pocket-"
+    download_url="https://github.com/foxmask/django-th-dummy/archive/trigger-happy-dummy-"
     + version + ".zip",
     packages=find_packages(exclude=['th_dummy/local_settings']),
     classifiers=[
