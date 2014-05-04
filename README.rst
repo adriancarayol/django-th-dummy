@@ -1,6 +1,6 @@
-=====================================
-Django Trigger Happy : Dummy Service
-=====================================
+===============
+Dummy Connector
+===============
 
 This project is a dummy module for Django Trigger Happy that can be used 
 to bootstrap a new Service. 
@@ -12,7 +12,7 @@ the service you want to plug to DTH. Even this README.rst should be adapted.
 
 Requirements :
 ==============
-* django_th: 0.8.1
+* django_th: 0.9.0
 
 
 Installation:
@@ -23,7 +23,7 @@ to get the project, from your virtualenv, do :
 
     pip install django-th-dummy
     
-then
+then do
 
 .. code:: python
 
@@ -51,10 +51,11 @@ add the module th_rss to INSTALLED_APPS
         'th_dummy',
     )    
 
+
 TH_SERVICES 
 ~~~~~~~~~~~
 
-TH_SERVICES is a list of the services use by Trigger Happy
+TH_SERVICES is a list of the services used by Trigger Happy
 
 .. code:: python
 
