@@ -43,7 +43,7 @@ Settings.py
 INSTALLED_APPS
 ~~~~~~~~~~~~~~
 
-add the module th_rss to INSTALLED_APPS
+add the module th_dummy to INSTALLED_APPS
 
 .. code:: python
 
