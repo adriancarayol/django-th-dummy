@@ -20,7 +20,7 @@ setup(
     author='Olivier Demah',
     author_email='olivier@foxmask.info',
     url='https://github.com/foxmask/django-th-dummy',
-    download_url="https://github.com/foxmask/django-th-dummy/archive/trigger-happy-pocket-"
+    download_url="https://github.com/foxmask/django-th-dummy/archive/trigger-happy-dummy-"
     + version + ".zip",
     packages=find_packages(exclude=['th_dummy/local_settings']),
     classifiers=[
