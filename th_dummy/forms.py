@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import forms
+from django.forms import TextInput
 from th_Dummy.models import Dummy
 
 
@@ -13,6 +14,9 @@ class DummyForm(forms.ModelForm):
     class Meta:
         model = Dummy
         fields = ('tag',)
+        widgets = {
+            'tag': TextInput(attrs={'class': 'form-control'}),
+        }
 
 
 class DummyProviderForm(DummyForm):
