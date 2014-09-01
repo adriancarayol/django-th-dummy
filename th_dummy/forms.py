@@ -2,7 +2,7 @@
 
 from django import forms
 from django.forms import TextInput
-from th_Dummy.models import Dummy
+from th_dummy.models import Dummy
 
 
 class DummyForm(forms.ModelForm):
@@ -13,9 +13,9 @@ class DummyForm(forms.ModelForm):
 
     class Meta:
         model = Dummy
-        fields = ('tag',)
+        fields = ('name',)
         widgets = {
-            'tag': TextInput(attrs={'class': 'form-control'}),
+            'name': TextInput(attrs={'class': 'form-control'}),
         }
 
 
