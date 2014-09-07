@@ -12,7 +12,7 @@ the service you want to plug to DTH. Even this README.rst should be adapted.
 
 Requirements :
 ==============
-* django_th: 0.9.0
+* django_th >= 0.9.0
 
 
 Installation:
@@ -63,8 +63,9 @@ TH_SERVICES is a list of the services used by Trigger Happy
         'th_dummy.my_dummy.ServiceDummy',
     )
 
+
 TH_DUMMY
-~~~~~~~~~~~
+~~~~~~~~
 TH_DUMMY is the settings you will need to be able to add/read data in/from Dummy Service.
 
 .. code:: python
