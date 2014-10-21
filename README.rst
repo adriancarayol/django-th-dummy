@@ -12,7 +12,7 @@ the service you want to plug to DTH. Even this README.rst should be adapted.
 
 Requirements :
 ==============
-* django_th >= 0.9.0
+* django_th >= 0.9.1
 
 
 Installation:
