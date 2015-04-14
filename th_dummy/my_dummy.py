@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 # add here the call of any native lib of python like datetime etc.
 #
 # add the python API here if needed
