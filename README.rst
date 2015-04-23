@@ -12,11 +12,13 @@ the service you want to plug to DTH. Even this README.rst should be adapted.
 
 Requirements :
 ==============
+
 * django_th >= 0.10.1
 
 
 Installation:
 =============
+
 to get the project, from your virtualenv, do :
 
 .. code:: python
@@ -33,6 +35,7 @@ to startup the database
 
 Parameters :
 ============
+
 As usual you will setup the database parameters.
 
 Important parts are the settings of the available services :
@@ -66,6 +69,7 @@ TH_SERVICES is a list of the services used by Trigger Happy
 
 TH_DUMMY
 ~~~~~~~~
+
 TH_DUMMY is the settings you will need to be able to add/read data in/from Dummy Service.
 
 .. code:: python
