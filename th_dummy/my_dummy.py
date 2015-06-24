@@ -8,6 +8,7 @@ from external_api import CallOfApi
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.utils.log import getLogger
+from django.core.cache import caches
 
 # django_th classes
 from django_th.services.services import ServicesMgr
@@ -31,18 +32,38 @@ from django_th.models import UserService, ServicesActivated
 
 logger = getLogger('django_th.trigger_happy')
 
+cache = caches['th_dummy']
+
 
 class ServiceDummy(ServicesMgr):
 
-    def process_data(self, token, trigger_id, date_triggered):
+    def __init__(self, token=None):
+        self.consumer_key = settings.TH_DUMMY['consumer_key']
+        if token:
+            self.dummy_instance = CallOfApi(self.consumer_key, token)
+
+    def read_data(self, token, trigger_id, date_triggered):
         """
             get the data from the service
+            as the pocket service does not have any date
+            in its API linked to the note,
+            add the triggered date to the dict data
+            thus the service will be triggered when data will be found
             :param trigger_id: trigger ID to process
             :param date_triggered: the date of the last trigger
             :type trigger_id: int
             :type date_triggered: datetime
             :return: list of data found from the date_triggered filter
             :rtype: list
+        """
+        data = list()
+        cache.set('th_dummy_' + str(trigger_id), data)
+
+    def process_data(self, trigger_id):
+        """
+            get the data from the cache
+            :param trigger_id: trigger ID from which to save data
+            :type trigger_id: int
         """
         datas = list()
         return datas
@@ -69,13 +90,11 @@ class ServiceDummy(ServicesMgr):
             # token_key, token_secret = token.split('#TH#')
 
                 # get the token of the external service for example
-            dummy_instance = external_api.CallOfApi(
-                settings.TH_DUMMY['consumer_key'], token)
 
             title = ''
             title = (data['title'] if 'title' in data else '')
                 # add data to the external service
-            item_id = dummy_instance .add(
+            item_id = self.dummy_instance .add(
                 url=data['link'], title=title, tags=(trigger.tag.lower()))
 
             sentance = str('dummy {} created').format(data['link'])
@@ -129,13 +148,13 @@ class ServiceDummy(ServicesMgr):
             us.token = access_token
 
             # if the service require us to provide
-            # the access token +  access token secret then
-            # here is the way I do
+            # the access token +  access token secret then
+            # here is the way I do
             # access_token = self.get_access_token(
             #    request.session['oauth_token'],
             #    request.session['oauth_token_secret'],
             #    request.GET.get('oauth_verifier', '')
-            #)
+            # )
             # us.token = access_token['oauth_token'] + \
             # '#TH#' + access_token['oauth_token_secret']
             # then in process_data I split on #TH# to get each one
