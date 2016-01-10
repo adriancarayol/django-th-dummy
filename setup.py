@@ -17,8 +17,8 @@ setup(
     name='django_th_dummy',
     version=version,
     description='Django Trigger Happy : This handles the Dummy service',
-    author='Olivier Demah',
-    author_email='olivier@foxmask.info',
+    author='FoxMaSk',
+    author_email='foxmask@trigger-happy.eu',
     url='https://github.com/foxmask/django-th-dummy',
     download_url="https://github.com/foxmask/django-th-dummy/archive/trigger-happy-dummy-"
     + version + ".zip",
